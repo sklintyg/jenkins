@@ -9,6 +9,12 @@ def notifyFailed() {
               recipientProviders: [[$class: 'CulpritsRecipientProvider'], [$class: 'DevelopersRecipientProvider']])
 }
 
+def notifySuccess() {
+    emailext (subject: "Job '${env.JOB_NAME}' is back to normal",
+              body: """Job '${env.JOB_NAME} [${env.BUILD_NUMBER}]' succeeded:\n\nCheck console output at ${env.BUILD_URL}""",
+              recipientProviders: [[$class: 'CulpritsRecipientProvider'], [$class: 'DevelopersRecipientProvider']])
+}
+
 def run(Closure body) {
     try {
         body()
