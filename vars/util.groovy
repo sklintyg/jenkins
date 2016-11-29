@@ -4,13 +4,13 @@ def javaEnv() {
 }
 
 def notifyFailed() {
-    emailext (subject: "FAILED: Job '${env.JOB_NAME} [${env.BUILD_NUMBER}]'",
+    emailext (subject: "FAILED:  Job '${env.JOB_NAME} [${env.BUILD_NUMBER}]'",
               body: """FAILED: Job '${env.JOB_NAME} [${env.BUILD_NUMBER}]':\n\nCheck console output at ${env.BUILD_URL}""",
               recipientProviders: [[$class: 'CulpritsRecipientProvider'], [$class: 'DevelopersRecipientProvider']])
 }
 
 def notifySuccess() {
-    emailext (subject: "Job '${env.JOB_NAME}' is back to normal",
+    emailext (subject: "SUCCESS: Job '${env.JOB_NAME} [${env.BUILD_NUMBER}]'",
               body: """Job '${env.JOB_NAME} [${env.BUILD_NUMBER}]' succeeded:\n\nCheck console output at ${env.BUILD_URL}""",
               recipientProviders: [[$class: 'CulpritsRecipientProvider'], [$class: 'DevelopersRecipientProvider']])
 }
