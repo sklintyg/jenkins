@@ -10,9 +10,11 @@ def notifyFailed() {
 }
 
 def notifySuccess() {
-    emailext (subject: "SUCCESS: Job '${env.JOB_NAME} [${env.BUILD_NUMBER}]'",
-              body: """Job '${env.JOB_NAME} [${env.BUILD_NUMBER}]' succeeded:\n\nCheck console output at ${env.BUILD_URL}""",
-              recipientProviders: [[$class: 'CulpritsRecipientProvider'], [$class: 'DevelopersRecipientProvider']])
+    if (currentBuild.getPreviousBuild()?.result == 'FAILURE') {
+        emailext (subject: "SUCCESS: Job '${env.JOB_NAME} [${env.BUILD_NUMBER}]'",
+                  body: """Job '${env.JOB_NAME} [${env.BUILD_NUMBER}]' succeeded:\n\nCheck console output at ${env.BUILD_URL}""",
+                  recipientProviders: [[$class: 'CulpritsRecipientProvider'], [$class: 'DevelopersRecipientProvider']])
+    }
 }
 
 def run(Closure body) {
@@ -27,9 +29,9 @@ def run(Closure body) {
 
 def waitForServer(String url) {
     timeout(5) {
-	waitUntil {
-	    def r = sh script: "wget -q ${url} --no-check-certificate -O /dev/null", returnStatus: true
-	    return (r == 0);
-	}
+        waitUntil {
+            def r = sh script: "wget -q ${url} --no-check-certificate -O /dev/null", returnStatus: true
+            return (r == 0);
+        }
     }
 }
