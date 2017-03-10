@@ -30,7 +30,7 @@ def run(Closure body) {
 def run(Closure body, Closure cleanup) {
     try {
         run(body)
-    } finallally {
+    } finally {
         cleanup()
     }
 }
