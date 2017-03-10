@@ -27,6 +27,14 @@ def run(Closure body) {
     }
 }
 
+def run(Closure body, Closure cleanup) {
+    try {
+        run(body)
+    } finallally {
+        cleanup()
+    }
+}
+
 def waitForServer(String url) {
     timeout(5) {
         waitUntil {
