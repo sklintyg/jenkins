@@ -36,6 +36,7 @@ def run(Closure body, Closure cleanup) {
     }
 }
 
+// Wait for the specified url to become available, with a timeout of 5 minutes.
 def waitForServer(String url) {
     timeout(5) {
         waitUntil {
@@ -45,6 +46,7 @@ def waitForServer(String url) {
     }
 }
 
+// Return the latest published version of a module, with the given baseVersion.
 def latestVersion(String module, String baseVersion) {
     withEnv(["BASE_VERSION=${baseVersion}",
              "MODULE=${module}",
