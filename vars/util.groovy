@@ -45,8 +45,8 @@ def waitForServer(String url) {
     }
 }
 
-def latestVersion(String package, String baseVersion) {
+def latestVersion(String module, String baseVersion) {
     def url = "https://build-inera.nordicmedtest.se/nexus/service/local/lucene/search?"
-    return sh(script: 'curl -ks "${url}?a=${package}&v=${baseVersion}&repositoryId=releases" | sed -nr "/^.*latestRelease>([0-9.]+)<.*/{s//\\1/p;q}"',
+    return sh(script: 'curl -ks "${url}?a=${module}&v=${baseVersion}&repositoryId=releases" | sed -nr "/^.*latestRelease>([0-9.]+)<.*/{s//\\1/p;q}"',
               returnStdout: true).trim()
 }
