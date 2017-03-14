@@ -4,7 +4,7 @@ def javaEnv() {
 }
 
 def notifyFailed() {
-    emailext (subject: "FAILED:  Job '${env.JOB_NAME} [${env.BUILD_NUMBER}]'",
+    emailext (subject: "FAILED: Job '${env.JOB_NAME} [${env.BUILD_NUMBER}]'",
               body: """FAILED: Job '${env.JOB_NAME} [${env.BUILD_NUMBER}]':\n\nCheck console output at ${env.BUILD_URL}""",
               recipientProviders: [[$class: 'CulpritsRecipientProvider'], [$class: 'DevelopersRecipientProvider']])
 }
@@ -27,6 +27,7 @@ def run(Closure body) {
     }
 }
 
+// Run the body closure. Then run the cleanup closure (e.g. for closing VPN connections), even in case of error.
 def run(Closure body, Closure cleanup) {
     try {
         run(body)
@@ -42,4 +43,10 @@ def waitForServer(String url) {
             return (r == 0);
         }
     }
+}
+
+def latestVersion(String package, String baseVersion) {
+    def url = "https://build-inera.nordicmedtest.se/nexus/service/local/lucene/search?"
+    return sh(script: 'curl -ks "${url}?a=${package}&v=${baseVersion}&repositoryId=releases" | sed -nr "/^.*latestRelease>([0-9.]+)<.*/{s//\\1/p;q}"',
+              returnStdout: true).trim()
 }
