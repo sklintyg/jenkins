@@ -40,8 +40,9 @@ def run(Closure body, Closure cleanup) {
 def waitForServer(String url) {
     timeout(5) {
         waitUntil {
-            def r = sh script: "wget -q ${url} --no-check-certificate -O /dev/null", returnStatus: true
-            return (r == 0);
+            def r1 = sh script: "wget -q ${url} --header='Cookie: ROUTEID=1' --no-check-certificate -O /dev/null", returnStatus: true
+            def r2 = sh script: "wget -q ${url} --header='Cookie: ROUTEID=2' --no-check-certificate -O /dev/null", returnStatus: true
+            return (r1 == 0 && r2 == 0);
         }
     }
 }
