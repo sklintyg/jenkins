@@ -37,12 +37,17 @@ def run(Closure body, Closure cleanup) {
 }
 
 // Wait for the specified url to become available, with a timeout of 5 minutes.
-def waitForServer(String url) {
+def waitForServer(String url, boolean loadBalanced = true) {
     timeout(5) {
         waitUntil {
-            def r1 = sh script: "wget -q ${url} --header='Cookie: ROUTEID=1' --no-check-certificate -O /dev/null", returnStatus: true
-            def r2 = sh script: "wget -q ${url} --header='Cookie: ROUTEID=2' --no-check-certificate -O /dev/null", returnStatus: true
-            return (r1 == 0 && r2 == 0);
+            if (loadBalanced) {
+                def r1 = sh script: "wget -q ${url} --header='Cookie: ROUTEID=1' --no-check-certificate -O /dev/null", returnStatus: true
+                def r2 = sh script: "wget -q ${url} --header='Cookie: ROUTEID=2' --no-check-certificate -O /dev/null", returnStatus: true
+                return (r1 == 0 && r2 == 0)
+            } else {
+                def r1 = sh script: "wget -q ${url} --no-check-certificate -O /dev/null", returnStatus: true
+                return r1 == 0
+            }
         }
     }
 }
