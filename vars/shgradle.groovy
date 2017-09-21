@@ -6,7 +6,7 @@ def getBuildOpts() {
 def call(gradleCommand) {
     util.run {
         withEnv(util.javaEnv()) {
-            sh "./gradlew " + gradleCommand + getBuildOpts()
+            sh "./gradlew " + "--stacktrace " + gradleCommand + getBuildOpts()
         }
     }
 }
