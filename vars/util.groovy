@@ -9,17 +9,21 @@ def javaEnv11() {
 }
 
 def notifyFailed() {
+/*
     emailext (subject: "FAILED: Job '${env.JOB_NAME} [${env.BUILD_NUMBER}]'",
               body: """FAILED: Job '${env.JOB_NAME} [${env.BUILD_NUMBER}]':\n\nCheck console output at ${env.BUILD_URL}""",
               recipientProviders: [[$class: 'CulpritsRecipientProvider'], [$class: 'DevelopersRecipientProvider']])
+*/
 }
 
 def notifySuccess() {
+/*
     if (currentBuild.getPreviousBuild()?.result == 'FAILURE') {
         emailext (subject: "SUCCESS: Job '${env.JOB_NAME} [${env.BUILD_NUMBER}]'",
                   body: """Job '${env.JOB_NAME} [${env.BUILD_NUMBER}]' succeeded:\n\nCheck console output at ${env.BUILD_URL}""",
                   recipientProviders: [[$class: 'CulpritsRecipientProvider'], [$class: 'DevelopersRecipientProvider']])
     }
+*/
 }
 
 def run(Closure body) {
