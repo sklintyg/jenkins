@@ -1,6 +1,7 @@
 def getBuildOpts() {
     return " -DnexusUsername=$NEXUS_USERNAME -DnexusPassword=$NEXUS_PASSWORD" +
-        " -DgithubUser=$GITHUB_USERNAME -DgithubPassword=$GITHUB_PASSWORD"
+        " -DgithubUser=$GITHUB_USERNAME -DgithubPassword=$GITHUB_PASSWORD" +
+        " -DineraNexusUsername=$INERA_NEXUS_USERNAME -DineraNexusPassword=$INERA_NEXUS_PASSWORD"
 }
 
 def call(gradleCommand) {
